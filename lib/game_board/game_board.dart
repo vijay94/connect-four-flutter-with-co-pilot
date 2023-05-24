@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+const _player_1 = 1;
+const _player_2 = 2;
+
 class GameBoard extends StatefulWidget {
   const GameBoard({super.key, required this.title});
 
@@ -15,8 +18,9 @@ class _GameBoardButton {
 }
 
 class _GameBoardState extends State<GameBoard> {
-  final _gameBoard = List.generate(6, (index) => List.generate(7, (index) => _GameBoardButton()));
+  var _gameBoard = List.generate(6, (index) => List.generate(7, (index) => _GameBoardButton()));
   var isPlayerOne = true;
+  var winner = null;
 
   // write a function to check for a winner
   bool checkForWinner() {
@@ -72,10 +76,74 @@ class _GameBoardState extends State<GameBoard> {
 
   void setButton(i, j) {
     setState(() {
-      _gameBoard[i][j].value = isPlayerOne ? 1 : 2;
+      _gameBoard[i][j].value = isPlayerOne ? _player_2 : _player_1;
       isPlayerOne = !isPlayerOne;
     });
-    print(checkForWinner());
+    if (checkForWinner()) {
+      setState(() {
+        winner = isPlayerOne ? _player_2 : _player_1;
+      });
+      _showSimpleModalDialog(context);
+    }
+  }
+
+  _showSimpleModalDialog(context){
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius:BorderRadius.circular(20.0)),
+            child: Container(
+            constraints: BoxConstraints(maxHeight: 350),
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      // show the winner with the IconButton
+                      SvgPicture.asset(
+                        winner == _player_1 ? 'assets/yellow.svg' : 'assets/red.svg',
+                        width: 80,
+                        height: 80,
+                      ),
+                      // show an image from the asset
+                      SvgPicture.asset(
+                        'assets/winner.svg',
+                        width: 150,
+                        height: 150,
+                      )
+                    ]
+                  ),
+                  Text(
+                    '${winner == _player_1 ? 'Yellow' : 'Red'} wins!',
+                    style: const TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      setState(() {
+                        winner = null;
+                        isPlayerOne = true;
+                        _gameBoard = List.generate(6, (index) => List.generate(7, (index) => _GameBoardButton()));
+                      });
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(Icons.refresh),
+                    label: const Text('Play again'),
+                  ),
+                ],
+              )
+            ),
+          ),
+        );
+    });
   }
 
   @override
@@ -94,9 +162,9 @@ class _GameBoardState extends State<GameBoard> {
             var j = index % 7;
 
             var asset = 'assets/grey.svg';
-            if (_gameBoard[i][j].value == 2) {
+            if (_gameBoard[i][j].value == _player_2) {
               asset = 'assets/yellow.svg';
-            } else if (_gameBoard[i][j].value == 1) {
+            } else if (_gameBoard[i][j].value == _player_1) {
               asset = 'assets/red.svg';
             }
             return IconButton(
@@ -104,6 +172,9 @@ class _GameBoardState extends State<GameBoard> {
                 asset
               ),
               onPressed: () {
+                if (winner != null) {
+                  return;
+                }
                 if (_gameBoard[i][j].value != 0) {
                   return;
                 }
