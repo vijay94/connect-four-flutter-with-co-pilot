@@ -96,7 +96,7 @@ class _GameBoardState extends State<GameBoard> {
           shape: RoundedRectangleBorder(
             borderRadius:BorderRadius.circular(20.0)),
             child: Container(
-            constraints: BoxConstraints(maxHeight: 350),
+            constraints: const BoxConstraints(maxHeight: 350),
             child: Padding(
               padding: const EdgeInsets.all(12.0),
               child: Column(
