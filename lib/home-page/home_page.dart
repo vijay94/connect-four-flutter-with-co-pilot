@@ -36,7 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
     if (_currentPage == Page.menuPage) {
       return MenuPage(title: 'Connect Four', startGame: _switchToGameBoard, exitApp: _exitApp);
     } else {
-      return const GameBoard(title: 'Connect Four');
+      return GameBoard(title: 'Connect Four', exitApp: _exitApp);
     }
   }
 
@@ -53,10 +53,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
       body: _getCurrentPage(),
     );
   }

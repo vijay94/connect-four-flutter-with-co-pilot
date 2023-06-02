@@ -16,6 +16,12 @@ class ConnectFourApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.black12,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        textTheme: const TextTheme(
+          headlineMedium: TextStyle(
+            fontSize: 40,
+            color: Colors.deepPurple,
+          ),
+        ),
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Connect four game'),

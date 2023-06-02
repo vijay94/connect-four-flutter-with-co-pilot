@@ -5,9 +5,10 @@ const _player_1 = 1;
 const _player_2 = 2;
 
 class GameBoard extends StatefulWidget {
-  const GameBoard({super.key, required this.title});
+  const GameBoard({super.key, required this.title, required this.exitApp});
 
   final String title;
+  final Function exitApp;
 
   @override
   State<GameBoard> createState() => _GameBoardState();
@@ -150,6 +151,17 @@ class _GameBoardState extends State<GameBoard> {
   Widget build(BuildContext context) {
 
     return Scaffold(
+      // The app bar should have a back button leading to the home page
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(widget.title),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: Center(
         // create a grid of buttons
         child: GridView.count(

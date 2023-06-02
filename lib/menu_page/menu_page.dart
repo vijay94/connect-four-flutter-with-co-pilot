@@ -17,30 +17,33 @@ class MenuPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        children: [
-          const SizedBox(height: 100),
-          Text(
-            title,
-            style: Theme.of(context).textTheme.headlineMedium,
-          ),
-          const SizedBox(height: 100),
-          ElevatedButton(
-            onPressed: () {
-              startGame();
-            },
-            child: const Text("Start game"),
-          ),
-          const SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () {
-              exitApp();
-            },
-            child: const Text("Exit game"),
-          ),
-          const SizedBox(height: 100),
-        ],
+    return Container(
+      color: const Color.fromARGB(255, 245, 217, 248),
+      child: Center(
+        child: Column(
+          children: [
+            const SizedBox(height: 100),
+            Text(
+              title,
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            const SizedBox(height: 100),
+            ElevatedButton(
+              onPressed: () {
+                startGame();
+              },
+              child: const Text("Start game"),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                exitApp();
+              },
+              child: const Text("Exit game"),
+            ),
+            const SizedBox(height: 100),
+          ],
+        ),
       ),
     );
   }
