@@ -5,13 +5,13 @@ const _player_1 = 1;
 const _player_2 = 2;
 
 class GameBoard extends StatefulWidget {
-  const GameBoard({super.key, required this.title, required this.exitApp});
+  const GameBoard({super.key, required this.title, required this.goToMenuPage});
 
   final String title;
-  final Function exitApp;
+  final Function goToMenuPage;
 
   @override
-  State<GameBoard> createState() => _GameBoardState();
+  State<GameBoard> createState() => _GameBoardState(goToMenuPage: goToMenuPage);
 }
 
 class _GameBoardButton {
@@ -22,6 +22,10 @@ class _GameBoardState extends State<GameBoard> {
   var _gameBoard = List.generate(6, (index) => List.generate(7, (index) => _GameBoardButton()));
   var isPlayerOne = true;
   var winner = null;
+  
+  _GameBoardState({required this.goToMenuPage});
+  
+  final Function goToMenuPage;
 
   // write a function to check for a winner
   bool checkForWinner() {
@@ -129,11 +133,7 @@ class _GameBoardState extends State<GameBoard> {
                   ),
                   ElevatedButton.icon(
                     onPressed: () {
-                      setState(() {
-                        winner = null;
-                        isPlayerOne = true;
-                        _gameBoard = List.generate(6, (index) => List.generate(7, (index) => _GameBoardButton()));
-                      });
+                      _restartGame();
                       Navigator.pop(context);
                     },
                     icon: const Icon(Icons.refresh),
@@ -144,6 +144,14 @@ class _GameBoardState extends State<GameBoard> {
             ),
           ),
         );
+    });
+  }
+
+  _restartGame() {
+    setState(() {
+      winner = null;
+      isPlayerOne = true;
+      _gameBoard = List.generate(6, (index) => List.generate(7, (index) => _GameBoardButton()));
     });
   }
 
@@ -158,9 +166,18 @@ class _GameBoardState extends State<GameBoard> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context);
+            goToMenuPage();
           },
         ),
+        // The app bar should have a restart button
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: () {
+              _restartGame();
+            },
+          )
+        ],
       ),
       body: Center(
         // create a grid of buttons

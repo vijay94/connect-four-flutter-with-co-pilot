@@ -36,7 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
     if (_currentPage == Page.menuPage) {
       return MenuPage(title: 'Connect Four', startGame: _switchToGameBoard, exitApp: _exitApp);
     } else {
-      return GameBoard(title: 'Connect Four', exitApp: _exitApp);
+      return GameBoard(title: 'Connect Four', goToMenuPage: _switchToMenuPage);
     }
   }
 
@@ -48,6 +48,11 @@ class _MyHomePageState extends State<MyHomePage> {
   // Write a function that exits the app.
   void _exitApp() {
     exit(0);
+  }
+
+  // Write a function that switches to the menu page.
+  void _switchToMenuPage() {
+    _switchPage(Page.menuPage);
   }
 
   @override
