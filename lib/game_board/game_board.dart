@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:wakelock/wakelock.dart';
 
 const _player_1 = 1;
 const _player_2 = 2;
@@ -23,7 +24,9 @@ class _GameBoardState extends State<GameBoard> {
   var isPlayerOne = true;
   var winner = null;
   
-  _GameBoardState({required this.goToMenuPage});
+  _GameBoardState({required this.goToMenuPage}) {
+    Wakelock.enable();
+  }
   
   final Function goToMenuPage;
 
@@ -85,6 +88,7 @@ class _GameBoardState extends State<GameBoard> {
       isPlayerOne = !isPlayerOne;
     });
     if (checkForWinner()) {
+      Wakelock.disable();
       setState(() {
         winner = isPlayerOne ? _player_2 : _player_1;
       });
@@ -148,6 +152,7 @@ class _GameBoardState extends State<GameBoard> {
   }
 
   _restartGame() {
+    Wakelock.enable();
     setState(() {
       winner = null;
       isPlayerOne = true;
@@ -166,6 +171,7 @@ class _GameBoardState extends State<GameBoard> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
+            Wakelock.disable();
             goToMenuPage();
           },
         ),
