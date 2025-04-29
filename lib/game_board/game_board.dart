@@ -207,9 +207,6 @@ class _GameBoardState extends State<GameBoard> {
                 asset
               ),
               onPressed: () {
-                if (winner != null) {
-                  return;
-                }
                 if (_gameBoard[i][j].value != 0) {
                   return;
                 }

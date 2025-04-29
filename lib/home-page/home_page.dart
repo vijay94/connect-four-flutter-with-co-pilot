@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:connect_four/menu_page/menu_page.dart';
 import 'package:flutter/material.dart';
 
-import '../game_board/game_board.dart';
+import '../game_board/board.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
